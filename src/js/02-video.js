@@ -21,3 +21,26 @@
 // з метою відновлення відтворення зі збереженої позиції.
 // Додай до проекту бібліотеку lodash.throttle і зроби так, щоб час
 //  відтворення оновлювався у сховищі не частіше, ніж раз на секунду.
+
+
+import Player from '@vimeo/player';
+import throttle from 'lodash.throttle';
+
+// console.log(Player);
+// console.log(throttle);
+
+const iframe = document.querySelector('iframe');
+const player = new Player(iframe);
+
+player.on('timeupdate', throttle(onTimedUpdate, 1000));
+
+function onTimedUpdate(e) {
+    
+    localStorage.setItem('videoplayer-current-time', e.seconds);
+};
+
+const getTime = (localStorage.getItem('videoplayer-current-time'));
+if (getTime !== null) {
+    player.setCurrentTime(getTime)
+
+}
