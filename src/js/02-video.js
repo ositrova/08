@@ -29,18 +29,22 @@ import throttle from 'lodash.throttle';
 // console.log(Player);
 // console.log(throttle);
 
+
 const iframe = document.querySelector('iframe');
 const player = new Player(iframe);
 
-player.on('timeupdate', throttle(onTimedUpdate, 1000));
 
-function onTimedUpdate(e) {
-    
-    localStorage.setItem('videoplayer-current-time', e.seconds);
+player.on('timeupdate', throttle(timeUpdate, 1000));
+
+
+function timeUpdate(event) {
+    localStorage.setItem('videoplayer-current-time', event.seconds);
 };
 
-const getTime = (localStorage.getItem('videoplayer-current-time'));
-if (getTime !== null) {
-    player.setCurrentTime(getTime)
 
-}
+const getCurrentTime = (localStorage.getItem('videoplayer-current-time'));
+
+
+if (getCurrentTime !== null) {
+    player.setCurrentTime(getCurrentTime)
+};
