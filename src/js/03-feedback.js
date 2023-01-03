@@ -27,28 +27,44 @@ const formData = {};
 const KEY = "feedback-form-state";
 
 
-const form = document.querySelector('form');
+const form = document.querySelector('.feedback-form');
 
 
 form.addEventListener('input', throttle(formInput, 500))
 form.addEventListener('submit', formSubmit)
 
+function formInput(event) {
+    const email = form.elements.email.value;
+    const message = form.elements.message.value;
+  
+    const allValue = { email, message };
+  
+    const dataStorageSave = localStorage.setItem(
+      KEY,
+      JSON.stringify(allValue)
+    );
+  }
 
-function formInput (event) {
-    formData[event.target.name] = event.target.value;
-    localStorage.setItem(KEY, JSON.stringify(formData));
-};
+  function formSubmit(event) {
+    event.preventDefault();
+    const email = form.elements.email.value;
+    const message = form.elements.message.value;
+  
+    const formData = { email, message };
+  
+    if (email === '' || message === '') {
+      alert('Введіть всі поля форми!');
+    }
+  
+    console.log(formData);
+    form.reset();
+    localStorage.clear();
+  }
 
-function formSubmit(evt) {
-    evt.preventDefault();
-    console.log(JSON.parse(localStorage.getItem(KEY)));
-    evt.currentTarget.reset();
-    localStorage.removeItem(KEY);
-}
 
 function updateForm() {
     let data = localStorage.getItem(KEY);
-
+   
     if (data) {
         data = JSON.parse(data);
 
